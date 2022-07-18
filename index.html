@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./styles.css" />
+  <title>Pok&#233;Stats</title>
+</head>
+<body>
+  <header>
+    <img src="./images/logo.png" />
+    <h1>Pok&#233;Stats<span class="small-text">.info</span></h1>
+  </header>
+  <main>
+    <div id="search-bar" class="search-bar">
+      <div class="filter-box search-card">
+        <h4>.:Filter</h4>
+          <label for="type-select" class="filter-desc">Type:
+            <select id="type-select">
+              <option>Any</option>
+            </select></label>
+          <label for="generation-select" class="filter-desc">Generation:
+            <select id="generation-select">
+              <option>Any</option>
+          </select>
+          </label>
+          <div>
+          <span class="filter-desc">Sort By:</span>
+          <input type="radio" id="dex" value="dex" name="sort" checked />
+          <label for="dex">Dex #</label>
+          <input type="radio" id="name" value="name" name="sort" />
+          <label for="name">Name</label>
+          </div>
+      </div>
+      <div class="selection-listing-box search-card">
+        <p>.:Pok&#233;mon #1</p>
+        <input type="text" placeholder="Search" class="search-input" id="pokemon-1-search"/>
+        <select size="2" id="pokemon-1-select"></select>
+      </div>
+      <div class="selection-listing-box search-card">
+        <p>.:Pok&#233;mon #2</p>
+        <input type="text" placeholder="Search" class="search-input" id="pokemon-2-search"/>
+        <select size="2" id="pokemon-2-select"></select>
+      </div>
+    </div>
+    <div class="display" id="display">
+      <div class="card"></div>
+      <div id="comparison" class="compare-card"></div>
+      <div class="card"></div>
+    </div>
+  </main>
+
+  <template>
+    <img/>
+    <h3 id="poke-name"></h3>
+  </template>
+
+  <footer><p>Pok&#233;Stats © 2022</p></footer>
+  <script src="./index.js" type="module"></script>
+</body>

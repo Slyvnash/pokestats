@@ -7,6 +7,11 @@ export default class Pokemon {
     const image = document.createElement("img");
     image.src = this.sprites.other["official-artwork"].front_default;
 
+    // Stupid temp fix
+    if (this.id === 375 || this.id === 376) {
+      image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.id}.png`
+    }
+
     const pokeName = document.createElement("h3");
     pokeName.textContent = this.name;
 

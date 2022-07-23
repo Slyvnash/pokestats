@@ -11,8 +11,8 @@ const pokemon2DisplayEl = document.getElementById("display").lastElementChild;
 const pokemon1SearchEl = document.getElementById("pokemon-1-search")
 const pokemon2SearchEl = document.getElementById("pokemon-2-search")
 
-const allData = await receiveAllPokemonObjects()
-const allPokemon = allData.map(item => new Pokemon(item));
+const allData = await receiveAllPokemonObjects();
+let allPokemon = Object.values(allData).map(item => new Pokemon(item));
 /*/////////*/
 /* ON LOAD */
 /*/////////*/
@@ -20,7 +20,7 @@ const allPokemon = allData.map(item => new Pokemon(item));
 //Create 2 starting pokemon on load
 let pokemon1 = allPokemon[Math.floor(Math.random() * 898) + 1];
 let pokemon2 = allPokemon[Math.floor(Math.random() * 898) + 1];
-console.log(pokemon1)
+
 //Build the HTML for each
 pokemon1.getHtml(pokemon1DisplayEl);
 pokemon2.getHtml(pokemon2DisplayEl);
@@ -65,7 +65,11 @@ fetch("https://pokeapi.co/api/v2/generation")
 // Select Pokemon #1
 pokemon1SelectEl.addEventListener("change", async (event) => {
   pokemon1DisplayEl.innerHTML = "";
-  pokemon1 = allPokemon[event.target.value - 1]
+  for (let pokemon of allPokemon) {
+    if (parseInt(event.target.value) === pokemon.id) {
+      pokemon1 = pokemon
+    }
+  }
   pokemon1.getHtml(pokemon1DisplayEl);
   renderComparison(pokemon1, pokemon2);
 });
@@ -73,7 +77,11 @@ pokemon1SelectEl.addEventListener("change", async (event) => {
 // Select Pokemon #2
 pokemon2SelectEl.addEventListener("change", async (event) => {
   pokemon2DisplayEl.innerHTML = "";
-  pokemon2 = allPokemon[event.target.value - 1];
+  for (let pokemon of allPokemon) {
+    if (parseInt(event.target.value) === pokemon.id) {
+      pokemon2 = pokemon
+    }
+  }
   pokemon2.getHtml(pokemon2DisplayEl);
   renderComparison(pokemon1, pokemon2);
 });
@@ -82,17 +90,18 @@ pokemon2SelectEl.addEventListener("change", async (event) => {
 for (const radioButton of radioGroup) {
   radioButton.addEventListener("change", (event) => {
     if (event.target.value === "name") {
-      const nameArr = allPokemon.sort((a, b) => {
+      allPokemon = allPokemon.sort((a, b) => {
         return (a.name > b.name) ? 1 : -1})
-        postSelection(pokemon1SelectEl, nameArr)
-        postSelection(pokemon2SelectEl, nameArr)
+        console.log(allPokemon)
+        postSelection(pokemon1SelectEl, allPokemon)
+        postSelection(pokemon2SelectEl, allPokemon)
       filterType(typeSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
       filterGen(genSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
     } else if (event.target.value === "dex") {
-      const dexArr = allPokemon.sort((a, b) => {
+      allPokemon = allPokemon.sort((a, b) => {
         return (a.id > b.id) ? 1 : -1})
-        postSelection(pokemon1SelectEl, dexArr)
-        postSelection(pokemon2SelectEl, dexArr)
+        postSelection(pokemon1SelectEl, allPokemon)
+        postSelection(pokemon2SelectEl, allPokemon)
         filterType(typeSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
         filterGen(genSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
     }

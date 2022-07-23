@@ -1,7 +1,19 @@
+const API = "https://pokeapi.co/api/v2"
+const TOTAL_POKEMON_COUNT = 898
+
+const calls = []
+let i;
+
+for(i = 1; i<=TOTAL_POKEMON_COUNT; i++){
+  calls.push(`${API}/pokemon/${i}`);
+  calls.push(`${API}/pokemon-species/${i}`);
+}
+
+
 export async function postSelection(location, arr) {
   location.innerHTML = "";
 
-  arr.map((pokemon) => {
+  return arr.map((pokemon) => {
     const item = document.createElement("option");
     item.label = `${pokemon.name}`;
     item.value = pokemon.id;
@@ -9,44 +21,45 @@ export async function postSelection(location, arr) {
   });
 }
 
-export async function receiveAllPokemonObjects() {
-  let allPokemon = [];
-
-  for (let i = 1; i < 899; i++) {
-    const urls = [
-      `https://pokeapi.co/api/v2/pokemon-species/${i}`,
-      `https://pokeapi.co/api/v2/pokemon/${i}`,
-    ];
-
-    const calls = urls.map(async (url) => {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data;
-    });
-
-    const allData = await Promise.allSettled(calls)
-      .then((responses) => {
-        const data1 = (({ generation, id, name, varieties }) => ({
-          generation,
-          id,
-          name,
-          varieties,
-        }))(responses[0].value);
-
-        const data2 = (({ abilities, forms, sprites, stats, types }) => ({
-          abilities,
-          forms,
-          sprites,
-          stats,
-          types,
-        }))(responses[1].value);
-
-        const dataCombined = Object.assign(data1, data2);
-        allPokemon.push(dataCombined);
-      })
-      .catch((error) => console.log(error));
+function all(items, fn) {
+  const promises = items.map(item => fn(item).then(data => data.json()));
+  return Promise.all(promises);
+}
+function series(items, fn) {
+  let result = [];
+  return items
+    .reduce((acc, item) => {
+      acc = acc.then(() => {
+        return fn(item).then(res => result.push(res));
+      });
+      return acc;
+    }, Promise.resolve())
+    .then(() => result);
+}
+function splitToChunks(items, chunkSize = 50) {
+  const result = [];
+  for (let i = 0; i < items.length; i += chunkSize) {
+    result.push(items.slice(i, i + chunkSize));
   }
-  return allPokemon;
+  return result;
+}
+function chunks(items, fn, chunkSize = 50) {
+  let result = [];
+  const chunks = splitToChunks(items, chunkSize);
+  return series(chunks, chunk => {
+    return all(chunk, fn).then(res => (result = result.concat(res)));
+  }).then(() => result);
+}
+
+export async function receiveAllPokemonObjects() {
+  const allPokemon = await chunks(calls, fetch, 100);
+  const pokemon = {};
+ 
+  allPokemon.forEach(call => {
+    pokemon[call.id] = { ...pokemon[call.id], ...call };
+  })
+
+  return pokemon;
 }
 
 export function renderComparison(pokemon1, pokemon2) {
@@ -59,6 +72,7 @@ export function renderComparison(pokemon1, pokemon2) {
     const p1Greater = (pokemon1.stats[i].base_stat > pokemon2.stats[i].base_stat)
     const p2Greater = (pokemon2.stats[i].base_stat > pokemon1.stats[i].base_stat)
     const difference = Math.abs(pokemon1.stats[i].base_stat - pokemon2.stats[i].base_stat)
+    // You should use a template for this
     compareStat.innerHTML = `
     ${p1Greater ? 
       "<img src='./images/up-arrow.svg'/>" : (!p1Greater && !p2Greater) ? 

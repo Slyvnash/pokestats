@@ -38,8 +38,7 @@ header > img {
 
 main {
   display: flex;
-  height: 80vh;
-  min-height: 728px;
+  min-height: 80vh;
   justify-content: center;
 }
 

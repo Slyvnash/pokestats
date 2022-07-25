@@ -1,5 +1,6 @@
 const API = "https://pokeapi.co/api/v2"
 const TOTAL_POKEMON_COUNT = 898
+const loadingScreen = document.getElementById("loader-screen")
 
 const calls = []
 let i;
@@ -15,6 +16,13 @@ export async function postSelection(location, arr) {
 
   return arr.map((pokemon) => {
     const item = document.createElement("option");
+    let icon = ""
+    if (pokemon.sprites.versions["generation-vii"].icons.front_default) {
+    icon = `background-image:url(${pokemon.sprites.versions["generation-vii"].icons.front_default})`
+    } else {
+      icon = `background-image:url(${pokemon.sprites.versions["generation-viii"].icons.front_default})`
+    }
+    item.setAttribute("style", icon)
     item.label = `${pokemon.name}`;
     item.value = pokemon.id;
     location.appendChild(item);
@@ -25,6 +33,7 @@ function all(items, fn) {
   const promises = items.map(item => fn(item).then(data => data.json()));
   return Promise.all(promises);
 }
+
 function series(items, fn) {
   let result = [];
   return items
@@ -36,6 +45,7 @@ function series(items, fn) {
     }, Promise.resolve())
     .then(() => result);
 }
+
 function splitToChunks(items, chunkSize = 50) {
   const result = [];
   for (let i = 0; i < items.length; i += chunkSize) {
@@ -59,7 +69,14 @@ export async function receiveAllPokemonObjects() {
     pokemon[call.id] = { ...pokemon[call.id], ...call };
   })
 
+  setTimeout(hideLoader, 500)
+
   return pokemon;
+}
+
+function hideLoader() {
+  loadingScreen.classList.add("hidden")
+  document.querySelector("main").classList.remove("hidden")
 }
 
 export function renderComparison(pokemon1, pokemon2) {

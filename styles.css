@@ -36,6 +36,161 @@ header > img {
   height: 36px;
 }
 
+.loader-screen {
+min-height: 80vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 12px;
+}
+
+.loader-object {
+  display: flex;
+  gap: 12px;
+  height: 200px;
+}
+
+.loader-bar-1,
+.loader-bar-2,
+.loader-bar-3,
+.loader-bar-4 {
+  background-color: #fbfbfb;
+  width: 48px;
+  align-self:flex-end;
+}
+
+.loader-bar-1 {
+  animation: loading1 3s ease infinite;
+}
+
+.loader-bar-2 {
+  animation: loading2 5s ease infinite;
+}
+
+.loader-bar-3 {
+  animation: loading3 6s ease infinite;
+}
+
+.loader-bar-4 {
+  animation: loading4 4s ease infinite;
+}
+
+.semi-circle {
+ background-color: #fbfbfb;
+ width: 228px;
+ height: 114px;
+ border-radius: 0 0 114px 114px;
+}
+
+.center-red {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  background-color: #fa6466;
+  border-radius: 50%;
+  vertical-align: middle;
+  transform: translate(0%, 50%);
+}
+
+.center-white {
+  position: absolute;
+  height: 56px;
+  width: 56px;
+  background-color: #fbfbfb;
+  border-radius: 50%;
+  vertical-align: middle;
+  transform: translate(0%, 71%);
+}
+
+@keyframes loading1 {
+  0% {
+    height: 48px;
+  }
+
+  25% {
+    height: 80px;
+  }
+
+  50% {
+    height: 112px;
+  }
+
+  75% {
+    height: 80px;
+  }
+
+  100% {
+    height: 48px;
+  }
+}
+
+@keyframes loading2 {
+  0% {
+    height: 112px;
+  }
+
+  25% {
+    height: 80px;
+  }
+
+  50% {
+    height: 48px;
+  }
+
+  75% {
+    height: 80px;
+  }
+
+  100% {
+    height: 112px;
+  }
+}
+
+@keyframes loading3 {
+  0% {
+    height: 80px;
+  }
+
+  25% {
+    height: 48px;
+  }
+
+  50% {
+    height: 80px;
+  }
+
+  75% {
+    height: 112px;
+  }
+
+  100% {
+    height: 80px;
+  }
+}
+
+@keyframes loading4 {
+  0% {
+    height: 80px;
+  }
+
+  25% {
+    height: 112px;
+  }
+
+  50% {
+    height: 80px;
+  }
+
+  75% {
+    height: 48px;
+  }
+
+  100% {
+    height: 80px;
+  }
+}
+
 main {
   display: flex;
   min-height: 80vh;
@@ -150,8 +305,12 @@ main {
 
 .selection-listing-box option {
   padding: 4px;
+  padding-left: 32px;
   border-bottom: 1px solid #6ec73c;
   cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: 28px;
+  background-position: left top;
 }
 
 /* CARD STYLING */
@@ -223,6 +382,7 @@ footer > p {
 /*MISC CONDITIONALS*/
 .wrong-type,
 .wrong-gen,
-.wrong-name {
+.wrong-name,
+.hidden {
   display: none;
 }

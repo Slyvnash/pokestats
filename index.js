@@ -10,6 +10,9 @@ const pokemon1DisplayEl = document.getElementById("display").firstElementChild;
 const pokemon2DisplayEl = document.getElementById("display").lastElementChild;
 const pokemon1SearchEl = document.getElementById("pokemon-1-search")
 const pokemon2SearchEl = document.getElementById("pokemon-2-search")
+const filterDropDownBtnEl = document.getElementById("collapse-filter")
+const poke1DropDownBtnEl = document.getElementById("collapse-poke1")
+const poke2DropDownBtnEl = document.getElementById("collapse-poke2")
 
 const allData = await receiveAllPokemonObjects();
 let allPokemon = Object.values(allData).map(item => new Pokemon(item));
@@ -57,6 +60,14 @@ fetch("https://pokeapi.co/api/v2/generation")
         genSelectEl.appendChild(item);
       });
   });
+
+// Build Drop-Down Buttons
+filterDropDownBtnEl.addEventListener("click",
+  () => showHide(filterDropDownBtnEl, document.getElementById("filter-content")))
+poke1DropDownBtnEl.addEventListener("click",
+  () => showHide(poke1DropDownBtnEl, document.getElementById("poke1-content")))
+poke2DropDownBtnEl.addEventListener("click",
+  () => showHide(poke2DropDownBtnEl, document.getElementById("poke2-content")))
 
 /*/////////////////*/
 /* EVENT LISTENERS */
@@ -137,7 +148,7 @@ function search(text, location) {
 
 function filterType(value, location1, location2) {
 
-  if (value != "Any") {
+  if (value != "All") {
     for (let i = 0; i < location1.children.length; i++) {
 
       let child = location1.children[i];
@@ -172,7 +183,7 @@ function filterType(value, location1, location2) {
 }
 
 function filterGen(value, location1, location2) {
-  if (value != "Any") {
+  if (value != "All") {
     for (let i = 0; i < location1.children.length; i++) {
       let child = location1.children[i];
       let child2 = location2.children[i];
@@ -204,4 +215,14 @@ function filterGen(value, location1, location2) {
 
   search(pokemon1SearchEl.value, pokemon1SelectEl)
   search(pokemon2SearchEl.value, pokemon2SelectEl)
+}
+
+function showHide(btnId, locId) {
+  if (btnId.getAttribute("data-dropdown") === "true") {
+    btnId.setAttribute("data-dropdown", "false")
+    locId.setAttribute("data-visible", "true")
+  } else {
+    btnId.setAttribute("data-dropdown", "true")
+    locId.setAttribute("data-visible", "false")
+  }
 }

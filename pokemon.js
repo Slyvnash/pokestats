@@ -4,66 +4,55 @@ export default class Pokemon {
   }
 
   getHtml(location) {
-    const image = document.createElement("img");
-    image.src = this.sprites.other["official-artwork"].front_default;
+    const pokeCardHTML = document.importNode(
+      document.getElementById("pokemon-card-template").content,
+      true
+    );
 
-    // Temp fix for API bug
-    if (this.id === 375 || this.id === 376) {
-      image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.id}.png`
-    }
 
-    const pokeName = document.createElement("h3");
-    pokeName.textContent = this.name;
+    const icon = 
+      (this.sprites.versions["generation-vii"].icons.front_default) ? 
+        this.sprites.versions["generation-vii"].icons.front_default :
+        this.sprites.versions["generation-viii"].icons.front_default
 
-    const typeHeader = document.createElement("h4")
-    typeHeader.textContent = "Type:"
+    pokeCardHTML.getElementById("pokemon-img").setAttribute("src",
+      this.sprites.other["official-artwork"].front_default);
+    pokeCardHTML.getElementById("pokemon-icon").setAttribute("src", icon)
 
-    const type = document.createElement("p");
-    type.textContent =
+    pokeCardHTML.getElementById("name").textContent = this.name;
+    pokeCardHTML.getElementById("type-list").textContent =
       this.types.length > 1
         ? `
         ${this.types[0].type.name} / ${this.types[1].type.name}`
         : this.types[0].type.name;
 
-        const abilityHeader = document.createElement("h4")
-        abilityHeader.textContent = "Abilities:"
-    const abilities = document.createElement("p");
-    for(let item of this.abilities) {
-        if(this.abilities.indexOf(item) < this.abilities.length - 1) {
-            abilities.textContent += `${item.ability.name.replaceAll("-", " ")} / `; 
-        } else {
-            abilities.textContent += `${item.ability.name.replaceAll("-", " ")}`;
-          }
+    for (let item of this.abilities) {
+      if (this.abilities.indexOf(item) < this.abilities.length - 1) {
+        pokeCardHTML.getElementById(
+          "abilities-list"
+        ).textContent += `${item.ability.name.replaceAll("-", " ")} / `;
+      } else {
+        pokeCardHTML.getElementById(
+          "abilities-list"
+        ).textContent += `${item.ability.name.replaceAll("-", " ")}`;
+      }
     }
 
-    const infoBlock = document.createElement("div")
-    infoBlock.append(image, pokeName, typeHeader, type, abilityHeader, abilities)
-
-    const statsBlock = document.createElement("div")
-    statsBlock.classList.add("stats-block")
-    
-    const statTitles = document.createElement("div")
-    statTitles.classList.add("stat-titles")
     for (let item of this.stats) {
-        const statName = document.createElement("div")
-        statName.textContent = `${item.stat.name.replaceAll("-", " ")}: ${item.base_stat}`
-        statTitles.append(statName)
+      const statLineHTML = document.importNode(
+        document.getElementById("stats-line").content,
+        true
+      );
+      statLineHTML.getElementById(
+        "stat-name-val"
+      ).textContent = `${item.stat.name.replaceAll("-", " ")}: `;
+      statLineHTML.getElementById("stat-num-val").textContent = `${item.base_stat}`;
+      statLineHTML
+        .getElementById("stat-bar-inner")
+        .setAttribute("style", `width: ${(item.base_stat / 260) * 100}%`);
+      pokeCardHTML.getElementById("stats-block").appendChild(statLineHTML);
     }
 
-    const progBlock = document.createElement("div")
-    progBlock.classList.add("prog-block")
-    for(let item of this.stats) {
-        const statItem = document.createElement("div")
-        const percent = (item.base_stat / 260) * 100
-        statItem.innerHTML = `
-        <div class="stats-outer">
-            <div class="stats-inner" style="width: ${percent}%;">
-            </div>
-        </div>`
-        progBlock.append(statItem)
-    }
-
-    statsBlock.append(statTitles, progBlock)
-    location.append(infoBlock, statsBlock);
+    location.append(pokeCardHTML);
   }
 }

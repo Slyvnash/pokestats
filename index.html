@@ -3,61 +3,112 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap"
     rel="stylesheet"
   />
-
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles.css" />
   <title>Pok&#233;Stats</title>
 </head>
+
+
 <body>
   <header>
-    <img src="./images/logo.png" />
-    <h1>Pok&#233;Stats<span class="small-text">.info</span></h1>
+    <img src="./images/logo.png" class="logo" />
+    <h1 class="title">Pok&#233;Stats<span class="small-text">.info</span></h1>
   </header>
+
   <div class="loader-screen" id="loader-screen">
     <div class="loader-object">
-      <div class="loader-bar-1"></div>
-      <div class="loader-bar-2"></div>
-      <div class="loader-bar-3"></div>
-      <div class="loader-bar-4"></div>
+      <div class="loader-bars">
+        <div class="loader-bar-1"></div>
+        <div class="loader-bar-2"></div>
+        <div class="loader-bar-3"></div>
+        <div class="loader-bar-4"></div>
+      </div>
+      <div class="semi-circle"></div>
+      <div class="center-red"></div>
+      <div class="center-white"></div>
     </div>
-    <div class="semi-circle"></div>
-    <div class="center-red"></div>
-    <div class="center-white"></div>
+    <p>Loading...</p>
   </div>
+
   <main class="hidden">
+
     <div id="search-bar" class="search-bar">
-      <div class="filter-box search-card">
-        <h4>.:Filter</h4>
-          <label for="type-select" class="filter-desc">Type:
-            <select id="type-select">
-              <option>Any</option>
-            </select></label>
-          <label for="generation-select" class="filter-desc">Generation:
-            <select id="generation-select">
-              <option>Any</option>
-          </select>
-          </label>
-          <div>
-          <span class="filter-desc">Sort By:</span>
-          <input type="radio" id="dex" value="dex" name="sort" checked />
-          <label for="dex">Dex #</label>
-          <input type="radio" id="name" value="name" name="sort" />
-          <label for="name">Name</label>
-          </div>
+
+      <div class="search-card">
+
+        <div class="filter-title-bar">
+          <p class="filter-title">.:Filter</p>
+          <img data-dropdown="true" id="collapse-filter" class="show-more-button"/>
+        </div>
+
+        <div id="filter-content" class="filter-options" data-visible="false">
+            <label for="type-select" class="filter-option-title sort-options"
+              >Type:
+              <select id="type-select">
+                <option>All</option>
+              </select></label
+            >
+            <label for="generation-select" class="filter-option-title sort-options"
+              >Generation:
+              <select id="generation-select">
+                <option>All</option>
+              </select>
+            </label>
+
+            <div class="sort-options">
+              <span class="filter-option-title">Sort By:</span>
+              <input type="radio" id="dex" value="dex" name="sort" checked />
+              <label for="dex">Dex #</label>
+              <input type="radio" id="name" value="name" name="sort" />
+              <label for="name">Name</label>
+            </div>
+        </div>
       </div>
-      <div class="selection-listing-box search-card">
-        <p>.:Pok&#233;mon #1</p>
-        <input type="text" placeholder="Search" class="search-input" id="pokemon-1-search"/>
-        <select size="2" id="pokemon-1-select"></select>
+
+      <div class="search-card">
+
+        <div class="filter-title-bar">
+            <p class="filter-title">.:Pok&#233;mon #1</p>
+            <img data-dropdown="true" id="collapse-poke1" class="show-more-button"/>
+        </div>
+
+        <div id="poke1-content" class="selection-listing-box" data-visible="false">
+            <input
+              type="text"
+              placeholder="Search"
+              class="search-input"
+              id="pokemon-1-search"
+            />
+            <select size="5" id="pokemon-1-select"></select>
+        </div>
       </div>
-      <div class="selection-listing-box search-card">
-        <p>.:Pok&#233;mon #2</p>
-        <input type="text" placeholder="Search" class="search-input" id="pokemon-2-search"/>
-        <select size="2" id="pokemon-2-select"></select>
+
+
+      <div class="search-card">
+        <div class="filter-title-bar">
+            <p class="filter-title">.:Pok&#233;mon #2</p>
+            <img data-dropdown="true" id="collapse-poke2" class="show-more-button"/>
+        </div>
+
+        <div id="poke2-content" class="selection-listing-box" data-visible="false">
+            <input
+              type="text"
+              placeholder="Search"
+              class="search-input"
+              id="pokemon-2-search"
+            />
+            <select size="5" id="pokemon-2-select"></select>
+        </div>
       </div>
     </div>
+
+
     <div class="display" id="display">
       <div class="card"></div>
       <div id="comparison" class="compare-card"></div>
@@ -65,11 +116,51 @@
     </div>
   </main>
 
-  <template>
-    <img/>
-    <h3 id="poke-name"></h3>
+  <template id="pokemon-card-template">
+    <div class="card-contents">
+      <div>
+        <img src="" id="pokemon-img" class="pokemon-image-large"/>
+        <img src="" id="pokemon-icon" class="pokemon-image-small"/>
+        <h3 id="name"></h3>
+        <div class="extra-info">
+        <h4 id="type">
+          Type:
+          <p id="type-list"></p>
+        </h4>
+        <h4 id="abilities">
+          Abilities:
+          <p id="abilities-list"></p>
+        </h4>
+        </div>
+      </div>
+      <div id="stats-block" class="stats-block"></div>
+    </div>
   </template>
 
+  <template id="stats-line">
+    <div class="stats-line">
+      <div class="stats-text-block">
+      <p id="stat-name-val" class="stat-titles"></p>
+      <span id="stat-num-val" class="stat-num-val"></span>
+      </div>
+      <div id="stat-bar-outer" class="stats-outer">
+        <div id="stat-bar-inner" class="stats-inner"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="comp-template">
+    <div class="compare-line">
+      <img src="" id="arrow-left" class="compare-arrow" />
+      <span id="val" class="val-difference"></span>
+      <span id="comp-stat-title" class="comp-stat-title"></span>
+      <img src="" id="arrow-right" class="compare-arrow" />
+    </div>
+  </template>
+
+
   <footer><p>Pok&#233;Stats © 2022</p></footer>
+
+
   <script src="./index.js" type="module"></script>
 </body>

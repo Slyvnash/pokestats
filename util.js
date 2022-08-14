@@ -81,27 +81,28 @@ function hideLoader() {
 
 export function renderComparison(pokemon1, pokemon2) {
   const compareDisplayLoc = document.getElementById("comparison");
-  const compareDisplayEl = document.createElement("div");
-  compareDisplayEl.classList.add("compare-container")
-  compareDisplayLoc.innerHTML = "";
+  compareDisplayLoc.innerHTML = ""
+
+  const statTitles=["HP", "ATTK", "DEF", "SP ATTK", "SP DEF", "SPD"]
+
   for (let i = 0; i < 6; i++) {
-    const compareStat = document.createElement("div");
-    const p1Greater = (pokemon1.stats[i].base_stat > pokemon2.stats[i].base_stat)
-    const p2Greater = (pokemon2.stats[i].base_stat > pokemon1.stats[i].base_stat)
-    const difference = Math.abs(pokemon1.stats[i].base_stat - pokemon2.stats[i].base_stat)
-    // You should use a template for this
-    compareStat.innerHTML = `
-    ${p1Greater ? 
-      "<img src='./images/up-arrow.svg'/>" : (!p1Greater && !p2Greater) ? 
-      "<img src='./images/neutral.svg'/>" :
-      "<img src='./images/down-arrow.svg'/>"} 
-    ${difference}
-    ${p2Greater ? 
-      "<img src='./images/up-arrow.svg'/>" : (!p1Greater && !p2Greater) ? 
-      "<img src='./images/neutral.svg'/>" :
-      "<img src='./images/down-arrow.svg'/>"}`;
-    compareDisplayEl.append(compareStat);
+    const compHTML = document.importNode(document.getElementById("comp-template").content, true)
+    compHTML.getElementById("arrow-left").setAttribute("src", compareImage(i, pokemon1, pokemon2))
+    compHTML.getElementById("val").textContent = valDif(i)
+    compHTML.getElementById("comp-stat-title").textContent = statTitles[i]
+    compHTML.getElementById("arrow-right").setAttribute("src", compareImage(i, pokemon2, pokemon1))
+    compareDisplayLoc.appendChild(compHTML);
   }
 
-  compareDisplayLoc.append(compareDisplayEl);
+  function compareImage(index, active, other) {
+    const source = (active.stats[index].base_stat > other.stats[index].base_stat) ? './images/up-arrow.svg' :
+    (other.stats[index].base_stat > active.stats[index].base_stat) ? './images/down-arrow.svg' :
+    './images/neutral.svg'
+
+    return source
+  }
+
+  function valDif(index) {
+    return Math.abs(pokemon1.stats[index].base_stat - pokemon2.stats[index].base_stat)
+  }
 }

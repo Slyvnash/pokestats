@@ -25,6 +25,7 @@ export async function postSelection(location, arr) {
     item.setAttribute("style", icon)
     item.label = `${pokemon.name}`;
     item.value = pokemon.id;
+    item.innerText = `${pokemon.name}`
     location.appendChild(item);
   });
 }

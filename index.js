@@ -43,6 +43,7 @@ fetch("https://pokeapi.co/api/v2/type/?offset=0&limit=18")
         const item = document.createElement("option");
         item.label = name;
         item.value = name;
+        item.innerText = name;
         typeSelectEl.appendChild(item);
       });
   });
@@ -57,6 +58,7 @@ fetch("https://pokeapi.co/api/v2/generation")
         const item = document.createElement("option");
         item.label = num;
         item.value = num;
+        item.innerText = num;
         genSelectEl.appendChild(item);
       });
   });

@@ -109,7 +109,7 @@ export function renderComparison(pokemon1, pokemon2) {
 }
 
 export function buildList(arr, typeVal, genVal, searchVal) {
-  let tempArray = arr
+  let tempArray = [...arr]
   let newArray = []
 
   //Read type value and rebuild

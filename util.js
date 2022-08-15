@@ -107,3 +107,55 @@ export function renderComparison(pokemon1, pokemon2) {
     return Math.abs(pokemon1.stats[index].base_stat - pokemon2.stats[index].base_stat)
   }
 }
+
+export function buildList(arr, typeVal, genVal, searchVal) {
+  let tempArray = arr
+  let newArray = []
+
+  //Read type value and rebuild
+  if (typeVal != "All") {
+    for (let i = 0; i < tempArray.length; i++) {
+      if (tempArray[i]) {
+        const types = tempArray[i].types.map((item) => item.type.name);
+        if (!(types.includes(typeVal))) {
+          tempArray.splice(i, 1, null)
+        }
+      }
+    }
+  }
+
+  //Read gen value and rebuild
+  if (genVal != "All") {
+    for (let i = 0; i < tempArray.length; i++) {
+      if (tempArray[i]) {
+        const genArr = tempArray[i].generation.url.split("/")
+        const genNum = genArr[genArr.length - 2]
+
+        if (genVal != genNum) {
+          tempArray.splice(i, 1, null)
+        }
+      }
+    }
+  }
+
+  //Read related search box and rebuild
+  if (searchVal) {
+    for (let i = 0; i < tempArray.length; i++) {
+      if (tempArray[i] != null) {
+        console.log(tempArray[i].name)
+        if (!tempArray[i].name.toLowerCase().includes(searchVal.toLowerCase())) {
+          tempArray.splice(i, 1, null)
+        }
+      } else {console.log("broken")}
+    }
+  }
+
+  //Remove all incorrect pokemon from the array
+  for (let i = 0; i < tempArray.length; i++) {
+    if (tempArray[i] != null) {
+      newArray.push(tempArray[i])
+    }
+  }
+
+  return newArray
+}

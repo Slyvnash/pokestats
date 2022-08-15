@@ -1,4 +1,4 @@
-import { postSelection, receiveAllPokemonObjects, renderComparison } from "./util.js";
+import { postSelection, receiveAllPokemonObjects, renderComparison, buildList } from "./util.js";
 import Pokemon from "./pokemon.js";
 
 const pokemon1SelectEl = document.getElementById("pokemon-1-select");
@@ -15,7 +15,10 @@ const poke1DropDownBtnEl = document.getElementById("collapse-poke1")
 const poke2DropDownBtnEl = document.getElementById("collapse-poke2")
 
 const allData = await receiveAllPokemonObjects();
-let allPokemon = Object.values(allData).map(item => new Pokemon(item));
+const allPokemon = Object.values(allData).map(item => new Pokemon(item));
+let locArr1 = []
+let locArr2 = []
+
 /*/////////*/
 /* ON LOAD */
 /*/////////*/
@@ -103,121 +106,67 @@ pokemon2SelectEl.addEventListener("change", async (event) => {
 for (const radioButton of radioGroup) {
   radioButton.addEventListener("change", (event) => {
     if (event.target.value === "name") {
-      allPokemon = allPokemon.sort((a, b) => {
-        return (a.name > b.name) ? 1 : -1})
-        console.log(allPokemon)
-        postSelection(pokemon1SelectEl, allPokemon)
-        postSelection(pokemon2SelectEl, allPokemon)
-      filterType(typeSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
-      filterGen(genSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
+      locArr1 = locArr1.sort((a, b) => {
+        return (a.name > b.name) ? 1 : -1
+      })
+      locArr2 = locArr2.sort((a, b) => {
+        return (a.name > b.name) ? 1 : -1
+      })
+        postSelection(pokemon1SelectEl, locArr1)
+        postSelection(pokemon2SelectEl, locArr2)
     } else if (event.target.value === "dex") {
-      allPokemon = allPokemon.sort((a, b) => {
-        return (a.id > b.id) ? 1 : -1})
-        postSelection(pokemon1SelectEl, allPokemon)
-        postSelection(pokemon2SelectEl, allPokemon)
-        filterType(typeSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
-        filterGen(genSelectEl.value, pokemon1SelectEl, pokemon2SelectEl)
+      locArr1 = locArr1.sort((a, b) => {
+        return (a.id > b.id) ? 1 : -1
+      })
+      locArr2 = locArr2.sort((a, b) => {
+        return (a.id > b.id) ? 1 : -1
+      })
+        postSelection(pokemon1SelectEl, locArr1)
+        postSelection(pokemon2SelectEl, locArr2)
     }
   });
 }
 
 // Select Typing
 typeSelectEl.addEventListener("change", (event) => {
-  filterType(event.target.value, pokemon1SelectEl, pokemon2SelectEl)
+
+  locArr1 = buildList(allPokemon, event.target.value,
+    genSelectEl.value, pokemon1SearchEl.value)
+  locArr2 = buildList(allPokemon, event.target.value,
+    genSelectEl.value, pokemon2SearchEl.value)
+  
+  postSelection(pokemon1SelectEl, locArr1)
+  postSelection(pokemon2SelectEl, locArr2)
 });
 
 // Select Generation
 genSelectEl.addEventListener("change", (event) => {
-  filterGen(event.target.value, pokemon1SelectEl, pokemon2SelectEl)
+  locArr1 = buildList(allPokemon, typeSelectEl.value,
+    event.target.value, pokemon1SearchEl.value)
+  locArr2 = buildList(allPokemon, typeSelectEl.value,
+    event.target.value, pokemon2SearchEl.value)
+  
+  postSelection(pokemon1SelectEl, locArr1)
+  postSelection(pokemon2SelectEl, locArr2)
 });
 
 // Search feature
 pokemon1SearchEl.addEventListener("input", (event) => {
-  search(event.target.value, pokemon1SelectEl)})
+  console.log(locArr1)
+  locArr1 = buildList(allPokemon, typeSelectEl.value,
+    genSelectEl.value, event.target.value)
+  console.log(locArr1)
+    postSelection(pokemon1SelectEl, locArr1)
+})
+
 pokemon2SearchEl.addEventListener("input", (event) => {
-  search(event.target.value, pokemon2SelectEl)})
+  locArr2 = buildList(allPokemon, typeSelectEl.value,
+    genSelectEl.value, event.target.value)
+  
+    postSelection(pokemon2SelectEl, locArr2)
+})
 
-function search(text, location) {
-  for (let i = 0; i < location.length; i++) {
-    let child = location.children[i];
-    if(child.label.toLowerCase().includes(text.toLowerCase())){
-    child.classList.remove("wrong-name");
-    } else {
-      child.classList.add("wrong-name");
-    }
-  }
-}
-
-function filterType(value, location1, location2) {
-
-  if (value != "All") {
-    for (let i = 0; i < location1.children.length; i++) {
-
-      let child = location1.children[i];
-      let child2 = location2.children[i];
-
-      for (let pokemon of allPokemon) {
-        let containsType = false;
-        if (pokemon.name === child.label) {
-          const types = pokemon.types.map((item) => item.type.name);
-          containsType = types.includes(value);
-          if (containsType) {
-            child.classList.remove("wrong-type");
-            child2.classList.remove("wrong-type");
-          } else {
-            child.classList.add("wrong-type");
-            child2.classList.add("wrong-type");
-          }
-        }
-      }
-    }
-  } else {
-    for (let i = 0; i < location1.children.length; i++) {
-      let child = location1.children[i];
-      let child2 = pokemon2SelectEl.children[i];
-      child.classList.remove("wrong-type");
-      child2.classList.remove("wrong-type");
-    }
-  }
-
-  search(pokemon1SearchEl.value, pokemon1SelectEl)
-  search(pokemon2SearchEl.value, pokemon2SelectEl)
-}
-
-function filterGen(value, location1, location2) {
-  if (value != "All") {
-    for (let i = 0; i < location1.children.length; i++) {
-      let child = location1.children[i];
-      let child2 = location2.children[i];
-
-      for(let pokemon of allPokemon) {
-        let containsGen = false;
-        if(pokemon.name === child.label){
-        const genArray = pokemon.generation.url.split("/")
-        const genNum = genArray[genArray.length - 2]
-        containsGen = (genNum === value)
-        if(containsGen) {
-          child.classList.remove("wrong-gen");
-          child2.classList.remove("wrong-gen");
-        } else {
-          child.classList.add("wrong-gen");
-          child2.classList.add("wrong-gen");
-        }
-        }
-      }
-    }
-  } else {
-    for (let i = 0; i < location1.children.length; i++) {
-      let child = location1.children[i];
-      let child2 = location2.children[i];
-      child.classList.remove("wrong-gen");
-      child2.classList.remove("wrong-gen");
-    }
-  }
-
-  search(pokemon1SearchEl.value, pokemon1SelectEl)
-  search(pokemon2SearchEl.value, pokemon2SelectEl)
-}
+//Drop Down Menu Buttons
 
 function showHide(btnId, locId) {
   if (btnId.getAttribute("data-dropdown") === "true") {

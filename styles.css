@@ -628,9 +628,6 @@ letter-spacing: 0.25rem;
   }
 }
 /*MISC CONDITIONALS*/
-.wrong-type,
-.wrong-gen,
-.wrong-name,
 .hidden {
   display: none;
 }

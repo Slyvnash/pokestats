@@ -3,15 +3,27 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   font-family: "Nunito", sans-serif;
   font-weight: 400;
   font-size: 1rem;
   background-color: #fa6466;
   color: #190d0e;
-  max-height: 100vh;
+  min-height: 560px;
 }
 
+@media only screen and (min-width: 500px){
+  body {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: 965px) {
+  body {
+  }
+}
 /*////////*/
 /* HEADER */
 /*////////*/
@@ -19,28 +31,26 @@ body {
 header {
   color: #fbfbfb;
   display: flex;
-  max-height: 180px;
+  min-height: 4em;
+  height: 10vh;
   justify-content: center;
-  align-items: baseline;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  align-items: center;
 }
 
 .title {
   margin: 0;
   font-weight: 900;
-  font-size: 2rem;
+  font-size: 1.75em;
   padding-left: 8px;
-  padding-right: 0;
 }
 
 .small-text {
   font-weight: 400;
-  font-size: 1rem;
+  font-size:0.5em;
 }
 
 .logo {
-  max-height: 1.5rem;
+  max-height: 1.25em;
 }
 
 /*//////*/
@@ -48,36 +58,51 @@ header {
 /*//////*/
 
 main {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 12px;
+  padding-left: 1em;
+  padding-right: 1em;
+  min-height: 80vh;
+}
+
+@media only screen and (min-width: 965px) {
+  main {
+    display: grid;
+    grid-template: 230px repeat(3, 210px) / 1fr 4fr 4fr 4fr 1fr;
+    grid-template-areas: 
+    ". filter pokesearch1 pokesearch2 ."
+    ". body body body ."
+    ". body body body ."
+    ". body body body .";
+  }
 }
 
 @media only screen and (min-width: 1200px) {
   main {
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: center;
-    height: 680px;
+    min-height: 714px;
+    grid-template: repeat(3, 224px) / 1fr 292px repeat(3, minmax(0, 292px)) 1fr;
+    grid-template-areas: 
+    ". filter body body body ."
+    ". pokesearch1 body body body ."
+    ". pokesearch2 body body body .";
   }
 }
-
 /*////////*/
 /* FOOTER */
 /*////////*/
 
 footer {
+  display: flex;
+  justify-content: center;
   color: #fbfbfb;
   text-align: center;
-  padding-top: 24px;
-  padding-bottom: 12px;
-  height: 64px;
-  top: calc(100% - 64px)
+  height: 10vh;
 }
 
 footer > p {
-  margin: 0;
+  align-self: center;
 }
 
 /*////////////////*/
@@ -85,8 +110,7 @@ footer > p {
 /*////////////////*/
 
 .loader-screen {
-max-height: 80vh;
-min-height: 360px;
+min-height: 80vh;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -213,27 +237,30 @@ letter-spacing: 0.25rem;
 /*/////////////////////////*/
 
 /*FILTER SETTINGS*/
-.search-bar,
+.filter { 
+  grid-area: filter;
+}
+
+.pokesearch1 {
+  grid-area: pokesearch1;
+}
+
+.pokesearch2 {
+  grid-area: pokesearch2;
+}
+
 .filter-title-bar,
 .sort-options {
   display: flex;
 }
 
-.search-bar,
 .sort-options {
   align-items: center;
 }
 
-.search-bar {
-  flex-direction: column;
-  row-gap: 12px;
-  width: 90%;
-  max-width: 875px;
-}
-
 .search-card {
-  width: 100%;
   border-radius: 8px;
+  min-width: 274px;
   background-color: #fff;
   padding: 14px 20px 14px 20px;
   box-shadow: -2px 2px 0 3px #190d0e;
@@ -261,7 +288,7 @@ letter-spacing: 0.25rem;
 
 .filter-title {
   color: #fa6466;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   margin: 0;
 }
 
@@ -330,9 +357,6 @@ letter-spacing: 0.25rem;
 /* Filter Card Responsiveness*/
 
 @media only screen and (min-width:965px) {
-  .search-card {
-    max-width: 360px;
-  }
 
   .filter-options[data-visible],
   .selection-listing-box[data-visible] {
@@ -380,32 +404,6 @@ letter-spacing: 0.25rem;
   }
 }
 
-@media only screen and (min-width: 965px) and (max-width: 1199px){
-  .search-bar {
-    flex-direction: row;
-    justify-content: space-between;
-    max-height: 240px;
-  }
-
-  .search-card {
-    align-self: stretch;
-    width: 32%;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .search-bar {
-    width: 23%;
-    height: 100%;
-    row-gap: 0px;
-    justify-content: space-between;
-  }
-  
-  .search-card {
-    height: 32%
-  }
-}
-
 /*Drop-down Buttons */
 [data-dropdown="true"]{
   content: url("./images/down-arrow.svg");
@@ -416,7 +414,7 @@ letter-spacing: 0.25rem;
 }
 
 .show-more-button {
-  max-width: 24px;
+  max-width: 1.5em;
 }
 
 .show-more-button:hover,
@@ -435,11 +433,11 @@ letter-spacing: 0.25rem;
 /*//////////////////*/
 
 .display {
+  grid-area: body;
   display: flex;
   justify-content: space-evenly;
+  max-height: 228px;
   background-color: #fbfbfb;
-  width: 90%;
-  max-width: 875px;
   border-radius: 8px;
   padding: 24px;
   box-shadow: -2px 2px 0 3px #190d0e;
@@ -448,20 +446,13 @@ letter-spacing: 0.25rem;
 @media only screen and (min-width: 500px) {
   .display {
     justify-content: space-between;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .display {
-    width: 72%;
+    max-height: 860px;
   }
 }
 
 /* Main cards */
 .card {
   text-transform: capitalize;
-  flex-direction: column;
-  justify-content: space-between;
   width: 33%;
   font-size: .5rem;
   font-weight: 400;
@@ -480,7 +471,16 @@ letter-spacing: 0.25rem;
 }
 
 .card h3 {
+  font-weight: 900;
     margin-bottom: 12px;
+}
+
+.card h4 {
+  font-weight: 900;
+}
+
+.card p {
+  font-weight: 400;
 }
 
 .card-contents,
@@ -490,6 +490,9 @@ letter-spacing: 0.25rem;
 
 .card-contents {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .pokemon-image-small {

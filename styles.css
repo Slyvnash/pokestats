@@ -58,9 +58,9 @@ main {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-left: 1em;
-  padding-right: 1em;
+  margin: 0 1em;
   min-height: 80vh;
+  min-width: 280px;
 }
 
 @media only screen and (min-width: 965px) {
@@ -615,6 +615,7 @@ letter-spacing: 0.25rem;
   font-size: .75rem;
   font-weight: 400;
   width: 34%;
+  -webkit-justify-content: flex-end;
 }
 
 .val-difference {

@@ -1,10 +1,23 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   margin: 0;
   font-family: "Nunito", sans-serif;
   font-weight: 400;
@@ -26,11 +39,17 @@ body {
 
 header {
   color: #fbfbfb;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   min-height: 4em;
   height: 10vh;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .title {
@@ -54,9 +73,16 @@ header {
 /*//////*/
 
 main {
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   gap: 12px;
   margin: 0 1em;
   min-height: 80vh;
@@ -65,9 +91,11 @@ main {
 
 @media only screen and (min-width: 965px) {
   main {
+    display: -ms-grid;
     display: grid;
-    grid-template: 230px repeat(3, 210px) / 1fr 4fr 4fr 4fr 1fr;
-    grid-template-areas: 
+    -ms-grid-columns: 1fr 4fr 4fr 4fr 1fr;
+        grid-template: 230px repeat(3, 210px) / 1fr 4fr 4fr 4fr 1fr;
+        grid-template-areas: 
     ". filter pokesearch1 pokesearch2 ."
     ". body body body ."
     ". body body body ."
@@ -78,8 +106,9 @@ main {
 @media only screen and (min-width: 1200px) {
   main {
     min-height: 714px;
-    grid-template: repeat(3, 224px) / 1fr 292px repeat(3, minmax(0, 292px)) 1fr;
-    grid-template-areas: 
+    -ms-grid-columns: 1fr 292px (minmax(0, 292px))[3] 1fr;
+        grid-template: repeat(3, 224px) / 1fr 292px repeat(3, minmax(0, 292px)) 1fr;
+        grid-template-areas: 
     ". filter body body body ."
     ". pokesearch1 body body body ."
     ". pokesearch2 body body body .";
@@ -90,15 +119,21 @@ main {
 /*////////*/
 
 footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   color: #fbfbfb;
   text-align: center;
   height: 10vh;
 }
 
 footer > p {
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 /*////////////////*/
@@ -107,10 +142,19 @@ footer > p {
 
 .loader-screen {
 min-height: 80vh;
+display: -webkit-box;
+display: -ms-flexbox;
 display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+-webkit-box-orient: vertical;
+-webkit-box-direction: normal;
+    -ms-flex-direction: column;
+        flex-direction: column;
+-webkit-box-align: center;
+    -ms-flex-align: center;
+        align-items: center;
+-webkit-box-pack: center;
+    -ms-flex-pack: center;
+        justify-content: center;
 color: #fbfbfb;
 font-weight: 900;
 text-transform: uppercase;
@@ -119,23 +163,39 @@ letter-spacing: 0.25rem;
 }
 
 .loader-screen p {
-  animation: text-scale 6s linear infinite;
+  -webkit-animation: text-scale 6s linear infinite;
+          animation: text-scale 6s linear infinite;
+}
+
+@-webkit-keyframes text-scale {
+  0% { -webkit-transform: scale(1); transform: scale(1); }
+  50% { -webkit-transform: scale(1.25); transform: scale(1.25); }
+  100% { -webkit-transform: scale(1); transform: scale(1); }
 }
 
 @keyframes text-scale {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+  0% { -webkit-transform: scale(1); transform: scale(1); }
+  50% { -webkit-transform: scale(1.25); transform: scale(1.25); }
+  100% { -webkit-transform: scale(1); transform: scale(1); }
 }
 
 .loader-object {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin-bottom: 12px;
 }
 
 .loader-bars {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 12px;
   height: 112px;
@@ -148,23 +208,28 @@ letter-spacing: 0.25rem;
 .loader-bar-4 {
   background-color: #fbfbfb;
   width: 48px;
-  align-self: flex-end;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
 }
 
 .loader-bar-1 {
-  animation: loading1 3s linear infinite;
+  -webkit-animation: loading1 3s linear infinite;
+          animation: loading1 3s linear infinite;
 }
 
 .loader-bar-2 {
-  animation: loading2 5s linear infinite;
+  -webkit-animation: loading2 5s linear infinite;
+          animation: loading2 5s linear infinite;
 }
 
 .loader-bar-3 {
-  animation: loading3 6s linear infinite;
+  -webkit-animation: loading3 6s linear infinite;
+          animation: loading3 6s linear infinite;
 }
 
 .loader-bar-4 {
-  animation: loading4 4s linear infinite;
+  -webkit-animation: loading4 4s linear infinite;
+          animation: loading4 4s linear infinite;
 }
 
 .semi-circle {
@@ -180,7 +245,9 @@ letter-spacing: 0.25rem;
   width: 80px;
   background-color: #fa6466;
   border-radius: 50%;
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 .center-white {
@@ -189,11 +256,21 @@ letter-spacing: 0.25rem;
   width: 56px;
   background-color: #fbfbfb;
   border-radius: 50%;
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 .loader-screen p {
   margin: 0;
+}
+
+@-webkit-keyframes loading1 {
+  0% { height: 48px; }
+  25% { height: 80px; }
+  50% { height: 112px; }
+  75% { height: 80px; }
+  100% { height: 48px; }
 }
 
 @keyframes loading1 {
@@ -204,6 +281,14 @@ letter-spacing: 0.25rem;
   100% { height: 48px; }
 }
 
+@-webkit-keyframes loading2 {
+  0% { height: 112px; }
+  25% { height: 80px; }
+  50% { height: 48px; }
+  75% { height: 80px; }
+  100% { height: 112px; }
+}
+
 @keyframes loading2 {
   0% { height: 112px; }
   25% { height: 80px; }
@@ -212,11 +297,27 @@ letter-spacing: 0.25rem;
   100% { height: 112px; }
 }
 
+@-webkit-keyframes loading3 {
+  0% { height: 80px; }
+  25% { height: 48px; }
+  50% { height: 80px; }
+  75% { height: 112px; }
+  100% { height: 80px; }
+}
+
 @keyframes loading3 {
   0% { height: 80px; }
   25% { height: 48px; }
   50% { height: 80px; }
   75% { height: 112px; }
+  100% { height: 80px; }
+}
+
+@-webkit-keyframes loading4 {
+  0% { height: 80px; }
+  25% { height: 112px; }
+  50% { height: 80px; }
+  75% { height: 48px; }
   100% { height: 80px; }
 }
 
@@ -247,11 +348,15 @@ letter-spacing: 0.25rem;
 
 .filter-title-bar,
 .sort-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .sort-options {
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .search-card {
@@ -259,7 +364,8 @@ letter-spacing: 0.25rem;
   min-width: 274px;
   background-color: #fff;
   padding: 14px 20px 14px 20px;
-  box-shadow: -2px 2px 0 3px #190d0e;
+  -webkit-box-shadow: -2px 2px 0 3px #190d0e;
+          box-shadow: -2px 2px 0 3px #190d0e;
 }
 
 .filter-options[data-visible="false"],
@@ -269,12 +375,17 @@ letter-spacing: 0.25rem;
 
 .filter-options[data-visible="true"],
 .selection-listing-box[data-visible="true"]{
+  display: -ms-grid;
   display: grid;
 }
 
 .filter-title-bar {
-  align-items: baseline;
-  justify-content: space-between;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .filter-title,
@@ -290,7 +401,9 @@ letter-spacing: 0.25rem;
 
 .filter-option-title {
   font-size: 1rem;
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 .filter-options select,
@@ -329,7 +442,9 @@ letter-spacing: 0.25rem;
 }
 
 .sort-options input {
-  transform: scale(1.25);
+  -webkit-transform: scale(1.25);
+      -ms-transform: scale(1.25);
+          transform: scale(1.25);
   margin: 0 .5rem;
 }
 
@@ -356,6 +471,7 @@ letter-spacing: 0.25rem;
 
   .filter-options[data-visible],
   .selection-listing-box[data-visible] {
+    display: -ms-grid;
     display: grid;
   }
 
@@ -390,7 +506,9 @@ letter-spacing: 0.25rem;
   }
 
   .sort-options input {
-    transform: scale(1);
+    -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+            transform: scale(1);
     margin: 0 .5rem;
   }
 
@@ -430,18 +548,67 @@ letter-spacing: 0.25rem;
 
 .display {
   grid-area: body;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-evenly;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
   max-height: 228px;
   background-color: #fbfbfb;
   border-radius: 8px;
   padding: 24px;
-  box-shadow: -2px 2px 0 3px #190d0e;
+  -webkit-box-shadow: -2px 2px 0 3px #190d0e;
+          box-shadow: -2px 2px 0 3px #190d0e;
+}
+
+@media only screen and (min-width: 965px) {
+  .filter {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+  }
+  .pokesearch1 {
+    -ms-grid-row: 1;
+    -ms-grid-column: 3;
+  }
+  .pokesearch2 {
+    -ms-grid-row: 1;
+    -ms-grid-column: 4;
+  }
+  .display {
+    -ms-grid-row: 2;
+    -ms-grid-row-span: 3;
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 3;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .filter {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+  }
+  .pokesearch1 {
+    -ms-grid-row: 2;
+    -ms-grid-column: 2;
+  }
+  .pokesearch2 {
+    -ms-grid-row: 3;
+    -ms-grid-column: 2;
+  }
+  .display {
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 3;
+    -ms-grid-column: 3;
+    -ms-grid-column-span: 3;
+  }
 }
 
 @media only screen and (min-width: 500px) {
   .display {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     max-height: 860px;
   }
 }
@@ -486,9 +653,16 @@ letter-spacing: 0.25rem;
 
 .card-contents {
   text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .pokemon-image-small {
@@ -497,8 +671,12 @@ letter-spacing: 0.25rem;
 }
 
 .stats-line {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin-top: .25rem;
 }
 
@@ -526,7 +704,8 @@ letter-spacing: 0.25rem;
 .stats-outer {
   height: 24px;
   width: 20%;
-  box-shadow: inset -1px 1px 4px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset -1px 1px 4px 2px rgba(0, 0, 0, 0.15);
+          box-shadow: inset -1px 1px 4px 2px rgba(0, 0, 0, 0.15);
 }
 
 .stats-inner {
@@ -581,13 +760,21 @@ letter-spacing: 0.25rem;
   }
   
   .card-contents {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
 
   .stats-line {
-    justify-content: space-around;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
     text-align: right;
   }
 
@@ -606,12 +793,19 @@ letter-spacing: 0.25rem;
 /* Compare-Card Styling */
 .compare-card,
 .compare-line {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .compare-card {
-  flex-direction: column;
-  justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   font-size: .75rem;
   font-weight: 400;
   width: 34%;
@@ -623,7 +817,9 @@ letter-spacing: 0.25rem;
 }
 
 .compare-line {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     margin-top: .25rem;
 }
 
